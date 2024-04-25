@@ -44,18 +44,18 @@ data <- log1p(combined_matrix)
 kmeans_data <-
   timeclust(x=data,
             algo = 'cm',  #指定聚类方法，选项包括 'km' (kmeans;k均值划分)、'pam'（围绕中心点划分）、'hc'（层次聚类）、'cm' (cmeans)
-            k =9,  # 期望获得的聚类群数量
-            standardize = TRUE ,  #是否在聚类之前对数据执行 z-score 标准化变换
+            k =9, 
+            standardize = TRUE , 
   )
 
 pdf('severe.pdf',width = 20, height = 15)
 p <-
   timeclustplot(
-    kmeans_data, ##上一步分析好的结果文件
-    categories="timepoint",   ####x轴标签
-    value ="z-score",   ####y轴标签
+    kmeans_data, 
+    categories="timepoint",  
+    value ="z-score",   
     membership.color =colorRampPalette(c("#1a535c","#4ecdc4","#f7fff7","#ffe66d","#ff6b6b"))(50), #自定义 颜色
-    cols = 3,   ###指定出图的布局列数
+    cols = 3, 
     cl.color="black"
   )
 
@@ -66,12 +66,6 @@ gene_names_cluster_4 <- names(kmeans_data@cluster[kmeans_data@cluster == 4])
 gene_names_cluster_8 <- names(kmeans_data@cluster[kmeans_data@cluster == 8])
 change_ranges <- apply(data[gene_names_cluster_8, ], 1, function(x) max(x) - min(x))
 change_ranges[change_ranges>0.3]
-
-table(kmeans_data@cluster)
-CST7       2.74845903 2.8859462 3.0061962
-pdf('PIP4K2A_mild.pdf')
-VlnPlot(mild, features = 'PIP4K2A')
-dev.off()
 
 
 
